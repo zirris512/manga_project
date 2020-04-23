@@ -17,7 +17,6 @@
     "rules": {
        "indent": ["error", 3],
        "max-len": "off",
-       "linebreak-style": ["error", "windows"],
        "no-console": "off"
     }
 }
