@@ -1,0 +1,55 @@
+{
+   "name": "manga_project",
+   "version": "1.0.0",
+   "description": "",
+   "main": "server.js",
+   "scripts": {
+      "start": "if-env NODE_ENV=production && yarn start:prod || yarn start:dev",
+      "start:prod": "node server.js",
+      "start:dev": "yarn kill && concurrently \"nodemon\" \"yarn manga-app\"",
+      "server": "yarn kill && nodemon",
+      "manga-app": "cd manga-app && yarn start",
+      "install": "cd manga-app && yarn install",
+      "build": "cd manga-app && yarn build",
+      "heroku-postbuild": "yarn build",
+      "kill": "kill-port 3001",
+      "lint": "eslint --quiet",
+      "lint-fix": "eslint --fix ."
+   },
+   "nodemonConfig": {
+      "events": {
+         "restart": "yarn kill",
+         "crash": "yarn kill"
+      },
+      "delay": "3000",
+      "ignore": [
+         "manga-app/*"
+      ]
+   },
+   "engine": {
+      "node": "10.16.0",
+      "npm": "6.9.0"
+   },
+   "repository": {
+      "type": "git",
+      "url": "git+https://github.com/zirris512/manga_project.git"
+   },
+   "keywords": [],
+   "author": "",
+   "license": "ISC",
+   "bugs": {
+      "url": "https://github.com/zirris512/manga_project/issues"
+   },
+   "homepage": "https://github.com/zirris512/manga_project#readme",
+   "dependencies": {
+      "express": "^4.17.1"
+   },
+   "devDependencies": {
+      "concurrently": "^5.1.0",
+      "eslint": "^6.8.0",
+      "eslint-config-airbnb-base": "^14.1.0",
+      "eslint-plugin-import": "^2.20.2",
+      "kill-port": "^1.6.0",
+      "nodemon": "^2.0.3"
+   }
+}
