@@ -1,4 +1,5 @@
 import React from 'react';
+import "./style.css";
 import { BsFillPersonFill, BsSearch } from 'react-icons/bs';
 
 function Nav() {
@@ -20,11 +21,11 @@ function Nav() {
                   <a className="nav-item nav-link" href="#">Anime</a>
                   <a className="nav-item nav-link" href="#">Manga</a>
                </div>
-               <form className="form-inline">
-                  <input className="form-control" type="search" placeholder="Search"></input>
-                  <button className="btn btn-light ml-2" type="submit" style={{"height": "40px", "width": "50px"}}><BsSearch style={{"fontSize": "25px"}} /></button>
+               <form className="form-inline input-group">
+                  <input className="form-control" type="search" placeholder="Search" style={{"maxWidth": "50%"}}></input>
+                  <button className="btn btn-light ml-2 input-group-append" type="submit" style={{"height": "40px", "width": "50px"}}><BsSearch style={{"fontSize": "25px"}} /></button>
                </form>
-               <a type="button" className="nav-link btn btn-danger ml-auto mt-2 pt-1"><BsFillPersonFill style={iconStyle} /></a>
+               <a id="login" type="button" className="nav-link btn btn-danger mt-2 pt-1"><BsFillPersonFill style={iconStyle} /></a>
             </div>
          </div>
       </nav>
