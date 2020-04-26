@@ -1,13 +1,13 @@
 import React from 'react';
 import Nav from '../components/Nav/index';
 
-function Home() {
+function MangaPage() {
    return (
       <div>
          <Nav />
-         <h1>This is the Home page!</h1>
+         <h1>This is the Manga page!</h1>
       </div>
    )
 }
 
-export default Home;
+export default MangaPage;

@@ -19,8 +19,8 @@ function Nav() {
             <div className="collapse navbar-collapse" id="navbarNav">
                <div className="navbar-nav">
                   <Link className="nav-item nav-link" to="/">Home</Link>
-                  <a className="nav-item nav-link" href="#">Anime</a>
-                  <a className="nav-item nav-link" href="#">Manga</a>
+                  <Link className="nav-item nav-link" to="/anime-page">Anime</Link>
+                  <Link className="nav-item nav-link" to="/manga-page">Manga</Link>
                </div>
                <form className="form-inline input-group">
                   <input className="form-control" type="search" placeholder="Search" style={{"maxWidth": "50%"}}></input>
