@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import "./style.css";
 import { BsFillPersonFill, BsSearch } from 'react-icons/bs';
 
@@ -11,13 +12,13 @@ function Nav() {
    return (
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
          <div className="container">
-            <a className="navbar-brand" href="/">Manga Project</a>
+            <a className="navbar-brand">Manga Project</a>
             <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                <span className="navbar-toggler-icon"></span>
             </button>
             <div className="collapse navbar-collapse" id="navbarNav">
                <div className="navbar-nav">
-                  <a className="nav-item nav-link" href="#">Home</a>
+                  <Link className="nav-item nav-link" to="/">Home</Link>
                   <a className="nav-item nav-link" href="#">Anime</a>
                   <a className="nav-item nav-link" href="#">Manga</a>
                </div>
