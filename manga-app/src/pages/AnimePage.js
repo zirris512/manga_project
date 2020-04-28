@@ -1,7 +1,7 @@
 import React from 'react';
 import Nav from '../components/Nav/index';
 
-function AnimePage() {
+const AnimePage = () => {
    return (
       <div>
          <Nav />
