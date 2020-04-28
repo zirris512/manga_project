@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import "./style.css";
-import { BsFillPersonFill, BsSearch } from 'react-icons/bs';
+import { BsFillPersonFill } from 'react-icons/bs';
 
 function Nav() {
    const iconStyle = {
@@ -23,8 +23,7 @@ function Nav() {
                   <Link className="nav-item nav-link" to="/manga-page">Manga</Link>
                </div>
                <form className="form-inline input-group">
-                  <input className="form-control" type="search" placeholder="Search" style={{"maxWidth": "50%"}}></input>
-                  <button className="btn btn-light ml-2 input-group-append" type="submit" style={{"height": "40px", "width": "50px"}}><BsSearch style={{"fontSize": "25px"}} /></button>
+                  <input id="header-search-bar" className="form-control" type="search" placeholder="Search"></input>
                </form>
                <Link id="login" type="button" className="nav-link btn btn-danger mt-2 pt-1" to="/login"><BsFillPersonFill style={iconStyle} /></Link>
             </div>

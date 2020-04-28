@@ -12,6 +12,16 @@ nav {
    font-size: 20px;
 }
 
+#header-search-bar {
+   max-width: 70%;
+   box-sizing: border-box;
+   font-size: 16px;
+   background-image: url('./images/search-glass1.png');
+   background-position: left; 
+   background-repeat: no-repeat;
+   padding: 12px 20px 12px 40px;
+}
+
 #login {
    margin-left: auto;
    max-width: 60px;
