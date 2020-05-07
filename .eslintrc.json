@@ -5,7 +5,8 @@
         "node": true
     },
     "extends": [
-        "airbnb-base"
+        "airbnb-base",
+        "prettier"
     ],
     "globals": {
         "Atomics": "readonly",
@@ -17,6 +18,10 @@
     "rules": {
        "indent": ["error", 3],
        "max-len": "off",
-       "no-console": "off"
-    }
+       "no-console": "off",
+       "prettier/prettier": "error"
+    },
+    "plugins": [
+       "prettier"
+    ]
 }
