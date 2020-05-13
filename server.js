@@ -1,23 +1,16 @@
 const express = require('express');
-const graphqlHTTP = require('express-graphql');
+const bodyParser = require('body-parser');
 const path = require('path');
+const cors = require('cors');
 
 const app = express();
 
 const PORT = process.env.PORT || 3001;
 
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
-const schema = require('./models/graphql');
-
-app.use(
-   '/graphql',
-   graphqlHTTP({
-      schema,
-      graphiql: true,
-   })
-);
+app.use(cors());
 
 if (process.env.NODE_ENV === 'production') {
    app.use(express.static('manga-app/build'));

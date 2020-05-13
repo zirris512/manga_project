@@ -19,9 +19,10 @@
        "indent": ["error", 3],
        "max-len": "off",
        "no-console": "off",
-       "prettier/prettier": "error"
+       "prettier/prettier": ["error"]
     },
     "plugins": [
-       "prettier"
+       "prettier",
+       "import"
     ]
 }
