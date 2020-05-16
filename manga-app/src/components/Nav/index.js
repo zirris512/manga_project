@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import "./style.css";
 import { BsFillPersonFill } from 'react-icons/bs';
 
 function Nav() {
@@ -21,9 +20,6 @@ function Nav() {
                   <Link className="nav-item nav-link" to="/anime-page">Anime</Link>
                   <Link className="nav-item nav-link" to="/manga-page">Manga</Link>
                </div>
-               <form className="form-inline input-group">
-                  <input id="header-search-bar" className="form-control" type="search" placeholder="Search"></input>
-               </form>
                <Link id="login" type="button" className="nav-link btn btn-danger mt-2 pt-1" to="/login"><BsFillPersonFill style={iconStyle} /></Link>
             </div>
          </div>

@@ -1,4 +1,5 @@
 import React from 'react';
+import './style.css';
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import Home from './pages/Home';
 import AnimePage from './pages/AnimePage';
@@ -24,30 +25,7 @@ const link = new HttpLink({
 const client = new ApolloClient({
    cache,
    link
- }); 
-
-// client
-//   .query({
-//     query: gql`
-//       query ($search: String, $perPage: Int) {
-//          Page (perPage: $perPage) {
-//             media(type: ANIME, search: $search) {
-//                title {
-//                   english
-//                }
-//                description
-//                episodes
-//                coverImage {
-//                   large
-//                }
-//             }
-//          }
-//       }
-//    `,
-//    variables: {search: 'Code Geass', perPage: '10'}
-//   })
-//   .then(result => console.log(result));
-
+ });
 
 const App = () => {
    return (
