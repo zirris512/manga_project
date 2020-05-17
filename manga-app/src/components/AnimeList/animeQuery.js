@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useQuery } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
+import PageNav from '../PageNav/PageNav';
 
 const GET_ANIME = gql`
 query ($search: String, $perPage: Int, $page: Int) {
@@ -10,7 +11,7 @@ query ($search: String, $perPage: Int, $page: Int) {
          lastPage
          hasNextPage
       }
-      media(type: ANIME, search: $search) {
+      media(type: ANIME, search: $search, isAdult: false) {
          title {
             english
             romaji
@@ -23,7 +24,9 @@ query ($search: String, $perPage: Int, $page: Int) {
 }
 `
 
-const AnimeQuery = ({ search, perPage, page }) => {
+const AnimeQuery = ({ search, perPage }) => {
+   const [page, setPage] = useState(1);
+
    const { data, loading, error } = useQuery(GET_ANIME, {
       variables: {
          search,
@@ -36,14 +39,26 @@ const AnimeQuery = ({ search, perPage, page }) => {
    if (!data) return <h2>No Data Found</h2>;
 
    return (
-      <div className='row'>
-         {data.Page.media.map((value, key) => (
-            <div className="col-md-3 col-sm-6 col-xs-6" key={key}>
-               <h3>{value.title.english ? value.title.english : value.title.romaji}</h3>
-               <img src={value.coverImage.large} />
-            </div>
-         ))}
-      </div>
+      <>
+         <div className='row'>
+            {data.Page.media.map((value, key) => {
+               const imgString = value.coverImage.large;
+
+               return (
+                  <div className="col-md-3 col-sm-6 col-xs-6 my-2" key={key}>
+                     <h3>{value.title.english ? value.title.english : value.title.romaji}</h3>
+                     <img src={imgString} alt={imgString.substring(imgString.lastIndexOf('/') + 1)}/>
+                  </div>
+
+               )
+            })}
+         </div>
+         <PageNav page={page}
+         setPage={setPage}
+         hasNextPage={data.Page.pageInfo.hasNextPage}
+         currentPage={data.Page.pageInfo.currentPage}
+         lastPage={data.Page.pageInfo.lastPage} />
+      </>
    )
 }
 
