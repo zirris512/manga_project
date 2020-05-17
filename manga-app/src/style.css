@@ -1,3 +1,15 @@
+.jumbotron {
+   margin-bottom: 0px;
+   background-image: linear-gradient(rgba(255,255,255,0.2), rgba(255,255,255,0.2)), url('./public/images/banner1.jpg');
+   background-repeat: no-repeat;
+   background-size: 100% 100%;
+}
+
+
+.jumbotron h1 {
+   font-size: 6em;
+}
+
 nav {
    min-height: 100px;
 }
@@ -31,5 +43,16 @@ nav {
    #login {
       margin-left: 0px;
       margin-right: auto;
+   }
+
+   .jumbotron {
+      background-image: url('./public/images/banner_sm1.jpg');
+      background-repeat: no-repeat;
+      background-size: 100% 100%;
+   }
+
+   .anime-img {
+      max-width: 300px;
+      max-height: 480px;
    }
 }

@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useQuery } from '@apollo/react-hooks';
+import { Link } from 'react-router-dom'
 import gql from 'graphql-tag';
 import PageNav from '../PageNav/PageNav';
 
@@ -12,6 +13,7 @@ query ($search: String, $perPage: Int, $page: Int) {
          hasNextPage
       }
       media(type: ANIME, search: $search, isAdult: false) {
+         id
          title {
             english
             romaji
@@ -34,7 +36,11 @@ const AnimeQuery = ({ search, perPage }) => {
          page
    }});
 
-   if (loading) return <h1>Loading</h1>;
+   useEffect(() => {
+      setPage(1);
+   }, [search]);
+
+   if (loading) return <h1>Loading...</h1>;
    if (error) return <h2>ERROR: {error.message}</h2>;
    if (!data) return <h2>No Data Found</h2>;
 
@@ -45,9 +51,11 @@ const AnimeQuery = ({ search, perPage }) => {
                const imgString = value.coverImage.large;
 
                return (
-                  <div className="col-md-3 col-sm-6 col-xs-6 my-2" key={key}>
-                     <h3>{value.title.english ? value.title.english : value.title.romaji}</h3>
-                     <img src={imgString} alt={imgString.substring(imgString.lastIndexOf('/') + 1)}/>
+                  <div className='col-md-3 col-sm-6 col-xs-6 my-2' key={key}>
+                     <Link to={`/anime-page/${value.id}`}>
+                        <h3>{value.title.english ? value.title.english : value.title.romaji}</h3>
+                        <img src={imgString} alt={imgString.substring(imgString.lastIndexOf('/') + 1)}/>
+                     </Link>
                   </div>
 
                )

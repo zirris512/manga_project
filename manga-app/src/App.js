@@ -3,6 +3,7 @@ import './style.css';
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import Home from './pages/Home';
 import AnimePage from './pages/AnimePage';
+import AnimeSinglePage from './pages/AnimeSinglePage'
 import MangaPage from './pages/MangaPage';
 import Login from './pages/Login';
 import Jumbotron from './components/Jumbotron/index';
@@ -34,9 +35,10 @@ const App = () => {
          <Router>
             <Nav />
             <Route exact path='/' component={Home}/>
-            <Route path='/anime-page' component={AnimePage} />
-            <Route path='/manga-page' component={MangaPage} />
-            <Route path='/login' component={Login} />
+            <Route exact path='/anime-page' component={AnimePage} />
+            <Route exact path='/manga-page' component={MangaPage} />
+            <Route exact path='/login' component={Login} />
+            <Route exact path='/anime-page/:id' component={AnimeSinglePage} />
          </Router>
       </ApolloProvider>
    )
