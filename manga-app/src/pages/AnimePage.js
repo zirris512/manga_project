@@ -1,51 +1,27 @@
-import React from 'react';
-import Nav from '../components/Nav/index';
-import { ApolloClient } from "apollo-client";
-import { InMemoryCache } from "apollo-cache-inmemory";
-import { HttpLink } from "apollo-link-http";
-import gql from 'graphql-tag';
-
-const cache = new InMemoryCache();
-const link = new HttpLink({
-   uri: "https://graphql.anilist.co",
-   headers: {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-      },
-   useGETForQueries: false,
-});
-
-const client = new ApolloClient({
-   cache,
-   link
- }); 
-
-client
-  .query({
-    query: gql`
-      query ($search: String, $perPage: Int) {
-         Page (perPage: $perPage) {
-            media(type: ANIME, search: $search) {
-               title {
-                  english
-               }
-               description
-               episodes
-               coverImage {
-                  large
-               }
-            }
-         }
-      }
-   `
-  })
-  .then(result => console.log(result));
+import React, { useState } from 'react';
+import AnimeQuery from '../components/AnimeList/animeQuery';
 
 const AnimePage = () => {
+   const [search, setSearch] = useState();
+   const [newSearch, setNewSearch] = useState();
+
    return (
-      <div>
-         <Nav />
-         <h1>This is the Anime page!</h1>
+      <div className='container'>
+         <div className="row">
+            <div className="col-md-4 col-sm-6">
+               <form className="form-inline input-group my-2" onSubmit={e => e.preventDefault()}>
+                  <input id="anime-search-bar" className="form-control" type="text" placeholder="Search" value={search} onChange={e => {
+                     setSearch(e.target.value);
+                  }} onKeyDown={e => {
+                     if(e.key === 'Enter') {
+                        setNewSearch(e.target.value);
+                        setSearch('');
+                     }
+                  }} />
+               </form>
+            </div>
+         </div>
+         <AnimeQuery perPage={20} search={newSearch} />
       </div>
    )
 }
