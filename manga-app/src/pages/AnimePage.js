@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import AnimeQuery from '../components/AnimeList/AnimeQuery';
+import AnimeQuery from '../components/AnimeList/AnimeQuery'
 
 const AnimePage = () => {
    const [search, setSearch] = useState();
