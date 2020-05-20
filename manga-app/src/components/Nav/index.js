@@ -1,12 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { BsFillPersonFill } from 'react-icons/bs';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSignInAlt } from '@fortawesome/free-solid-svg-icons';
 
 function Nav() {
-   const iconStyle = {
-      "color": "white",
-      "fontSize": "25px"
-      }
 
    return (
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -20,7 +17,7 @@ function Nav() {
                   <Link className="nav-item nav-link" to="/anime-page">Anime</Link>
                   <Link className="nav-item nav-link" to="/manga-page">Manga</Link>
                </div>
-               <Link id="login" type="button" className="nav-link btn btn-danger mt-2 pt-1" to="/login"><BsFillPersonFill style={iconStyle} /></Link>
+               <Link className='ml-auto' to="/login"><button className="nav-link btn btn-danger btn-sm mt-2 my-auto pt-1"><FontAwesomeIcon icon={faSignInAlt} size='2x' /></button></Link>
             </div>
          </div>
       </nav>

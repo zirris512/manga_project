@@ -1,8 +1,9 @@
 .jumbotron {
    margin-bottom: 0px;
-   background-image: linear-gradient(rgba(255,255,255,0.2), rgba(255,255,255,0.2)), url('./public/images/banner1.jpg');
+   background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('./public/images/banner1.jpg');
    background-repeat: no-repeat;
    background-size: 100% 100%;
+   color: white;
 }
 
 
@@ -34,16 +35,13 @@ nav {
    padding: 12px 20px 12px 40px;
 }
 
-#login {
-   margin-left: auto;
-   max-width: 60px;
+.login-form {
+   background-color: white;
+   color: black;
+   border-radius: 20px;
 }
 
 @media (max-width: 768px) {
-   #login {
-      margin-left: 0px;
-      margin-right: auto;
-   }
 
    .jumbotron {
       background-image: url('./public/images/banner_sm1.jpg');

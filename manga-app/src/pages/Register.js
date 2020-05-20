@@ -1,12 +1,17 @@
 import React from 'react';
 
-function Login() {
+function Register() {
    return (
       <div className='container my-4'>
          <div className='row d-flex justify-content-center'>
             <div className='col-md-4 login-form'>
                <form>
-                  <h3 className='text-center'>Sign In</h3>
+                  <h3 className='text-center'>Register</h3>
+
+                  <div className='form-group'>
+                     <label>Name</label>
+                     <input type='text' className='form-control' placeholder='Enter name' />
+                  </div>
 
                   <div className='form-group'>
                      <label>Email address</label>
@@ -19,15 +24,13 @@ function Login() {
                   </div>
 
                   <div className='form-group'>
-                     <div className='custom-control custom-checkbox'>
-                        <input type='checkbox' className='custom-control-input' id='customCheck1' />
-                        <label className='custom-control-label' htmlFor='customCheck1'>Remember me</label>
-                     </div>
+                     <label>Confirm Password</label>
+                     <input type='password' className='form-control' placeholder='Re-enter password' />
                   </div>
 
                   <button type='submit' className='btn btn-success btn-block'>Submit</button>
                   <p className='forgot-password text-right my-3'>
-                     <a href='/register'>Register?</a>
+                     <a href='/login'>Login?</a>
                   </p>
                </form>
             </div>
@@ -36,4 +39,4 @@ function Login() {
    )
 }
 
-export default Login;
+export default Register;
