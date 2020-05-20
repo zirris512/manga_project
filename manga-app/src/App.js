@@ -5,6 +5,7 @@ import Home from './pages/Home';
 import AnimePage from './pages/AnimePage';
 import AnimeSinglePage from './pages/AnimeSinglePage'
 import MangaPage from './pages/MangaPage';
+import MangaSinglePage from './pages/MangaSinglePage'
 import Login from './pages/Login';
 import Jumbotron from './components/Jumbotron/index';
 import Nav from './components/Nav/index';
@@ -39,6 +40,7 @@ const App = () => {
             <Route exact path='/manga-page' component={MangaPage} />
             <Route exact path='/login' component={Login} />
             <Route exact path='/anime-page/:id' component={AnimeSinglePage} />
+            <Route exact path='/manga-page/:id' component={MangaSinglePage} />
          </Router>
       </ApolloProvider>
    )

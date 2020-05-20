@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import gql from 'graphql-tag';
 import PageNav from '../PageNav/PageNav';
 
-const GET_ANIME = gql`
+const GET_MANGA = gql`
    query ($search: String, $perPage: Int, $page: Int) {
       Page (page: $page, perPage: $perPage) {
          pageInfo {
@@ -12,7 +12,7 @@ const GET_ANIME = gql`
             lastPage
             hasNextPage
          }
-         media(type: ANIME, search: $search, isAdult: false) {
+         media(type: MANGA, search: $search, isAdult: false) {
             id
             title {
                english
@@ -26,10 +26,10 @@ const GET_ANIME = gql`
    }
 `;
 
-const AnimeQuery = ({ search, perPage }) => {
+const MangaQuery = ({ search, perPage }) => {
    const [page, setPage] = useState(1);
 
-   const { data, loading, error } = useQuery(GET_ANIME, {
+   const { data, loading, error } = useQuery(GET_MANGA, {
       variables: {
          search,
          perPage,
@@ -52,7 +52,7 @@ const AnimeQuery = ({ search, perPage }) => {
 
                return (
                   <div className='col-md-3 col-sm-6 col-xs-6 my-2' key={key}>
-                     <Link to={`/anime-page/${value.id}`}>
+                     <Link to={`/manga-page/${value.id}`}>
                         <h3>{value.title.english ? value.title.english : value.title.romaji}</h3>
                         <img src={imgString} alt={imgString.substring(imgString.lastIndexOf('/') + 1)}/>
                      </Link>
@@ -70,4 +70,4 @@ const AnimeQuery = ({ search, perPage }) => {
    )
 }
 
-export default AnimeQuery;
+export default MangaQuery;
