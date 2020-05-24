@@ -3,30 +3,72 @@ import { Link } from 'react-router-dom';
 
 function Register() {
    const [formInput, setFormInput] = useState({
-      name: '',
+      user: '',
       email: '',
       password: '',
       password2: ''
    });
+   const [errors, setErrors] = useState([]);
+
+   const errorClose = value => {
+      let arr = [...errors];
+      arr.splice(value, 1);
+      setErrors(arr);
+   }
 
    const handleSubmit = event => {
       event.preventDefault();
-      if (formInput.password !== formInput.password2) {
-         return console.error('Passwords must match!')
+
+      const { user, email, password, password2 } = formInput;
+      setErrors([]);
+      let errorCount = 0;
+
+      if (!user || !email || !password || !password2) {
+         setErrors((prevState) => [...prevState, { msg: 'Please fill out all fields!'}]);
+         errorCount += 1;
       }
-      console.log(formInput);
+      if (password !== password2) {
+         setErrors((prevState) => [...prevState, { msg: 'Password must match!'}]);
+         errorCount += 1;
+      }
+      if (password.length < 6) {
+         setErrors((prevState) => [...prevState, { msg: 'Password must be at least 6 characters!'}]);
+         errorCount += 1;
+      }
+      console.log(errorCount)
+      if (errorCount === 0) {
+         fetch('/api/register', {
+            method: 'post',
+            body: JSON.stringify(formInput),
+            headers: {
+               'Content-Type': 'application/json'
+            }
+         });         
+      }
    }
 
    return (
       <div className='container my-4'>
+            {errors && errors.map((value, key) => (
+               <div className='row d-flex justify-content-center' key={key}>
+                  <div className='col-md-4 error-msgs'>
+                     <div className='alert alert-danger alert-dismissible' role='alert'>
+                        <p>{value.msg}</p>
+                        <button type='button' className='close' value={key} onClick={e => errorClose(e.currentTarget.value)}>
+                           <span aria-hidden='true'>&times;</span>
+                        </button>
+                     </div>
+                  </div>
+               </div>
+            ))}
          <div className='row d-flex justify-content-center'>
             <div className='col-md-4 login-form'>
                <form onSubmit={handleSubmit}>
                   <h3 className='text-center'>Register</h3>
 
                   <div className='form-group'>
-                     <label>Name</label>
-                     <input type='text' name='name' value={formInput.name} onChange={e => setFormInput({...formInput, name: e.target.value})} className='form-control' placeholder='Enter name' />
+                     <label>Username</label>
+                     <input type='text' name='user' value={formInput.user} onChange={e => setFormInput({...formInput, user: e.target.value})} className='form-control' placeholder='Enter name' />
                   </div>
 
                   <div className='form-group'>

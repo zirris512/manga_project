@@ -41,6 +41,11 @@ nav {
    border-radius: 20px;
 }
 
+.close:focus {
+   outline: none;
+   box-shadow: none;
+}
+
 @media (max-width: 768px) {
 
    .jumbotron {
