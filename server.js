@@ -3,8 +3,7 @@ const path = require('path');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const session = require('express-session');
-
-const flash = require('connect-flash');
+const corsOptions = require('./config/cors');
 
 const app = express();
 
@@ -17,16 +16,7 @@ app.use(
    session({ secret: 'keyboard cat', resave: true, saveUninitialized: true })
 );
 
-app.use(flash());
-
-app.use((req, res, next) => {
-   res.locals.success_msg = req.flash('success_msg');
-   res.locals.error_msg = req.flash('error_msg');
-   res.locals.error = req.flash('error');
-   next();
-});
-
-app.use(cors());
+app.use(cors(corsOptions));
 
 app.use('/', require('./routes/userRoutes'));
 
@@ -40,8 +30,10 @@ if (process.env.NODE_ENV === 'production') {
    });
 }
 
+const MONGODB_URI = require('./config/keys');
+
 mongoose
-   .connect('mongodb://localhost/manga_app', {
+   .connect(MONGODB_URI, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
    })

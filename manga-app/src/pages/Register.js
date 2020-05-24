@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 
 function Register() {
    const [formInput, setFormInput] = useState({
-      user: '',
       email: '',
       password: '',
       password2: ''
@@ -16,34 +15,49 @@ function Register() {
       setErrors(arr);
    }
 
-   const handleSubmit = event => {
+   const handleSubmit = async event => {
       event.preventDefault();
 
-      const { user, email, password, password2 } = formInput;
+      const { email, password, password2 } = formInput;
       setErrors([]);
       let errorCount = 0;
+      const regValidation = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/;
+      const mailValidation = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
 
-      if (!user || !email || !password || !password2) {
+      if (!email || !password || !password2) {
          setErrors((prevState) => [...prevState, { msg: 'Please fill out all fields!'}]);
+         errorCount += 1;
+      }
+      if (!email.match(mailValidation)) {
+         setErrors((prevState) => [...prevState, { msg: 'Invalid email address!' }]);
          errorCount += 1;
       }
       if (password !== password2) {
          setErrors((prevState) => [...prevState, { msg: 'Password must match!'}]);
          errorCount += 1;
       }
-      if (password.length < 6) {
-         setErrors((prevState) => [...prevState, { msg: 'Password must be at least 6 characters!'}]);
+      if (!password.match(regValidation)) {
+         setErrors((prevState) => [...prevState,
+            { msg: 'Password must be at least 6-20 characters!'},
+            { msg: 'Password must contain an uppercase, lowercase, and number!'}         
+         ]);
          errorCount += 1;
       }
-      console.log(errorCount)
       if (errorCount === 0) {
-         fetch('/api/register', {
-            method: 'post',
-            body: JSON.stringify(formInput),
-            headers: {
-               'Content-Type': 'application/json'
+         try {
+            const data = await fetch('/api/register', {
+               method: 'post',
+               body: JSON.stringify(formInput),
+               headers: {
+                  'Content-Type': 'application/json'
+               }
+            });
+            if (data.status === 409) {
+               throw new Error();
             }
-         });         
+         } catch (error) {
+            setErrors((prevState) => [...prevState, { msg: 'User already Exists!' }]);
+         }
       }
    }
 
@@ -65,11 +79,6 @@ function Register() {
             <div className='col-md-4 login-form'>
                <form onSubmit={handleSubmit}>
                   <h3 className='text-center'>Register</h3>
-
-                  <div className='form-group'>
-                     <label>Username</label>
-                     <input type='text' name='user' value={formInput.user} onChange={e => setFormInput({...formInput, user: e.target.value})} className='form-control' placeholder='Enter name' />
-                  </div>
 
                   <div className='form-group'>
                      <label>Email address</label>
