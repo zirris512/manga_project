@@ -1,7 +1,7 @@
 import React from 'react';
 import 'bootswatch/dist/darkly/bootstrap.min.css';
 import './style.css';
-import { BrowserRouter as Router, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import Home from './pages/Home';
 import AnimePage from './pages/AnimePage';
 import AnimeSinglePage from './pages/AnimeSinglePage'
@@ -37,13 +37,15 @@ const App = () => {
          <Jumbotron />
          <Router>
             <Nav />
-            <Route exact path='/' component={Home}/>
-            <Route exact path='/anime-page' component={AnimePage} />
-            <Route exact path='/manga-page' component={MangaPage} />
-            <Route exact path='/login' component={Login} />
-            <Route exact path='/anime-page/:id' component={AnimeSinglePage} />
-            <Route exact path='/manga-page/:id' component={MangaSinglePage} />
-            <Route exact path='/register' component={Register} />
+            <Switch>
+               <Route exact path='/anime-page/:id' component={AnimeSinglePage} />
+               <Route exact path='/manga-page/:id' component={MangaSinglePage} />
+               <Route exact path='/' component={Home}/>
+               <Route exact path='/anime-page' component={AnimePage} />
+               <Route exact path='/manga-page' component={MangaPage} />
+               <Route exact path='/login' component={Login} />
+               <Route exact path='/register' component={Register} />
+            </Switch>
          </Router>
       </ApolloProvider>
    )

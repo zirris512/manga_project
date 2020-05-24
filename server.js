@@ -28,6 +28,8 @@ app.use((req, res, next) => {
 
 app.use(cors());
 
+app.use('/', require('./routes/userRoutes'));
+
 if (process.env.NODE_ENV === 'production') {
    app.use(express.static('manga-app/build'));
 }
