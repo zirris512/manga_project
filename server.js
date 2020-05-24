@@ -30,7 +30,7 @@ if (process.env.NODE_ENV === 'production') {
    });
 }
 
-const MONGODB_URI = require('./config/keys');
+const { MONGODB_URI } = require('./config/keys');
 
 mongoose
    .connect(MONGODB_URI, {
