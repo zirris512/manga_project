@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
+import ErrorAlert from '../components/ErrorAlert/ErrorAlert';
 
 function Register() {
    const [formInput, setFormInput] = useState({
@@ -8,12 +9,7 @@ function Register() {
       password2: ''
    });
    const [errors, setErrors] = useState([]);
-
-   const errorClose = value => {
-      let arr = [...errors];
-      arr.splice(value, 1);
-      setErrors(arr);
-   }
+   const [redirect, setRedirect] = useState(false);
 
    const handleSubmit = async event => {
       event.preventDefault();
@@ -30,10 +26,10 @@ function Register() {
          });
          const response = await data.json();
 
-         console.log(response);
-
          if (response !== 'OK') {
             setErrors(response);
+         } else {
+            setRedirect(true);
          }
       } catch (error) {
          console.error(error);
@@ -43,18 +39,7 @@ function Register() {
 
    return (
       <div className='container my-4'>
-            {errors && errors.map((value, key) => (
-               <div className='row d-flex justify-content-center' key={key}>
-                  <div className='col-md-4 error-msgs'>
-                     <div className='alert alert-danger alert-dismissible' role='alert'>
-                        <p>{value.msg}</p>
-                        <button type='button' className='close' value={key} onClick={e => errorClose(e.currentTarget.value)}>
-                           <span aria-hidden='true'>&times;</span>
-                        </button>
-                     </div>
-                  </div>
-               </div>
-            ))}
+         <ErrorAlert errors={errors} setErrors={setErrors} />
          <div className='row d-flex justify-content-center'>
             <div className='col-md-4 login-form'>
                <form onSubmit={handleSubmit}>
@@ -82,6 +67,7 @@ function Register() {
                </form>
             </div>
          </div>
+         {redirect && <Redirect to='/dashboard' />}
       </div>
    )
 }
