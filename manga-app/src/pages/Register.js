@@ -18,47 +18,27 @@ function Register() {
    const handleSubmit = async event => {
       event.preventDefault();
 
-      const { email, password, password2 } = formInput;
       setErrors([]);
-      let errorCount = 0;
-      const regValidation = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/;
-      const mailValidation = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
 
-      if (!email || !password || !password2) {
-         setErrors((prevState) => [...prevState, { msg: 'Please fill out all fields!'}]);
-         errorCount += 1;
-      }
-      if (!email.match(mailValidation)) {
-         setErrors((prevState) => [...prevState, { msg: 'Invalid email address!' }]);
-         errorCount += 1;
-      }
-      if (password !== password2) {
-         setErrors((prevState) => [...prevState, { msg: 'Password must match!'}]);
-         errorCount += 1;
-      }
-      if (!password.match(regValidation)) {
-         setErrors((prevState) => [...prevState,
-            { msg: 'Password must be at least 6-20 characters!'},
-            { msg: 'Password must contain an uppercase, lowercase, and number!'}         
-         ]);
-         errorCount += 1;
-      }
-      if (errorCount === 0) {
-         try {
-            const data = await fetch('/api/register', {
-               method: 'post',
-               body: JSON.stringify(formInput),
-               headers: {
-                  'Content-Type': 'application/json'
-               }
-            });
-            if (data.status === 409) {
-               throw new Error();
+      try {
+         const data = await fetch('/api/register', {
+            method: 'post',
+            body: JSON.stringify(formInput),
+            headers: {
+               'Content-Type': 'application/json'
             }
-         } catch (error) {
-            setErrors((prevState) => [...prevState, { msg: 'User already Exists!' }]);
+         });
+         const response = await data.json();
+
+         console.log(response);
+
+         if (response !== 'OK') {
+            setErrors(response);
          }
-      }
+      } catch (error) {
+         console.error(error);
+         }
+      
    }
 
    return (
