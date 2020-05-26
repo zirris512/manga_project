@@ -2,38 +2,43 @@ import React, { useState } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import ErrorAlert from '../components/ErrorAlert/ErrorAlert';
 
-function Register() {
+const Register = () => {
    const [formInput, setFormInput] = useState({
-      email: '',
+      user: '',
       password: '',
       password2: ''
    });
    const [errors, setErrors] = useState([]);
-   const [redirect, setRedirect] = useState(false);
+   const [redirectTo, setRedirectTo] = useState(null);
 
    const handleSubmit = async event => {
       event.preventDefault();
+
+      const { user, password, password2 } = formInput;
+
+      const formatUser = user.toLowerCase();
 
       setErrors([]);
 
       try {
          const data = await fetch('/api/register', {
             method: 'post',
-            body: JSON.stringify(formInput),
+            body: JSON.stringify({ user: formatUser, password, password2 }),
             headers: {
                'Content-Type': 'application/json'
             }
          });
          const response = await data.json();
 
-         if (response !== 'OK') {
+         if (data.status !== 200) {
             setErrors(response);
          } else {
-            setRedirect(true);
+            console.log(response);
+            setRedirectTo('/login');
          }
       } catch (error) {
          console.error(error);
-         }
+      }
       
    }
 
@@ -46,8 +51,8 @@ function Register() {
                   <h3 className='text-center'>Register</h3>
 
                   <div className='form-group'>
-                     <label>Email address</label>
-                     <input type='email' name='email' value={formInput.email} onChange={e => setFormInput({...formInput, email: e.target.value})} className='form-control' placeholder='Enter email' />
+                     <label>Username</label>
+                     <input type='text' name='user' value={formInput.user} onChange={e => setFormInput({...formInput, user: e.target.value})} className='form-control' placeholder='Enter username' />
                   </div>
 
                   <div className='form-group'>
@@ -67,7 +72,7 @@ function Register() {
                </form>
             </div>
          </div>
-         {redirect && <Redirect to='/dashboard' />}
+         {redirectTo && <Redirect to={redirectTo} />}
       </div>
    )
 }

@@ -1,8 +1,10 @@
 const express = require('express');
 const path = require('path');
 const cors = require('cors');
-const mongoose = require('mongoose');
 const session = require('express-session');
+const MongoStore = require('connect-mongo')(session);
+const passport = require('./config/passport/index');
+const dbConnect = require('./db/connect');
 const corsOptions = require('./config/cors');
 
 const app = express();
@@ -13,8 +15,19 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
 app.use(
-   session({ secret: 'keyboard cat', resave: true, saveUninitialized: true })
+   session({
+      secret: 'keyboard cat',
+      store: new MongoStore({ mongooseConnection: dbConnect }),
+      resave: false,
+      saveUninitialized: false,
+      cookie: {
+         maxAge: 1000 * 60 * 60 * 24 * 7 * 2,
+      },
+   })
 );
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use(cors(corsOptions));
 
@@ -30,16 +43,4 @@ if (process.env.NODE_ENV === 'production') {
    });
 }
 
-const { MONGODB_URI } = require('./config/keys');
-
-mongoose
-   .connect(MONGODB_URI, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-   })
-   .then(() => {
-      app.listen(PORT, () => console.log(`Server listening on port ${PORT}!`));
-   })
-   .catch((err) => {
-      if (err) throw err;
-   });
+app.listen(PORT, () => console.log(`Server listening on port ${PORT}!`));

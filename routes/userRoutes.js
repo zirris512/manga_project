@@ -1,20 +1,17 @@
 const express = require('express');
-const bcrypt = require('bcryptjs');
+const passport = require('../config/passport/index');
 const User = require('../models/User');
 
 const router = express.Router();
 
-router.post('/api/register', (req, res) => {
-   const { email, password, password2 } = req.body;
-   const errors = [];
-   const regValidation = /^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$/;
-   const mailValidation = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
+const regValidation = /^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$/;
 
-   if (!email || !password || !password2) {
+router.post('/api/register', (req, res) => {
+   const { user, password, password2 } = req.body;
+   const errors = [];
+
+   if (!user || !password || !password2) {
       errors.push({ msg: 'Must fill out all fields!' });
-   }
-   if (!email.match(mailValidation)) {
-      errors.push({ msg: 'Must be a valid email address!' });
    }
    if (password !== password2) {
       errors.push({ msg: 'Passwords must match!' });
@@ -32,7 +29,7 @@ router.post('/api/register', (req, res) => {
       return;
    }
 
-   User.findOne({ email })
+   User.findOne({ user })
       // eslint-disable-next-line consistent-return
       .then((result) => {
          if (result) {
@@ -40,16 +37,34 @@ router.post('/api/register', (req, res) => {
             res.send(errors);
             return;
          }
-         bcrypt.hash(password, 10, (err, hash) => {
-            if (err) throw err;
 
-            User.create({ email, password: hash }, (error) => {
-               if (error) throw error;
-               // eslint-disable-next-line no-unused-vars
-            });
-            res.json('OK');
+         User.create({ user, password }, (error) => {
+            if (error) throw error;
+            // eslint-disable-next-line no-unused-vars
          });
+         res.json('OK');
       });
+});
+
+// eslint-disable-next-line consistent-return
+router.post('/api/login', passport.authenticate('local'), (req, res) => {
+   const user = JSON.parse(JSON.stringify(req.user));
+   const cleanUser = { ...user };
+
+   if (cleanUser) {
+      delete cleanUser.password;
+   }
+   res.json({ user: cleanUser });
+});
+
+router.get('/api/user', (req, res) => {
+   if (req.user) return res.json({ user: req.user });
+   return res.json({ user: null });
+});
+
+router.get('/api/logout', (req, res) => {
+   req.logout();
+   res.json('Successfully logged out');
 });
 
 module.exports = router;
