@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import 'bootswatch/dist/darkly/bootstrap.min.css';
 import './style.css';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
@@ -32,18 +32,37 @@ const client = new ApolloClient({
  });
 
 const App = () => {
+   const [loggedIn, setLoggedIn] = useState(false);
+   const [user, setUser] = useState(null);
+
+   useEffect(() => {
+      const checkUser = async () => {
+         const data = await fetch('/api/user');
+         const response = await data.json();
+   
+         if (response.user.user) {
+            setLoggedIn(true);
+            setUser(response.user.user);
+         } else {
+            setLoggedIn(false);
+            setUser(null);
+         }   
+      }
+      checkUser();
+   }, []);
+
    return (
       <ApolloProvider client={client}>
          <Jumbotron />
          <Router>
-            <Nav />
+            <Nav loggedIn={loggedIn} setLoggedIn={setLoggedIn} user={user} setUser={setUser} />
             <Switch>
                <Route exact path='/anime-page/:id' component={AnimeSinglePage} />
                <Route exact path='/manga-page/:id' component={MangaSinglePage} />
                <Route exact path='/' component={Home}/>
                <Route exact path='/anime-page' component={AnimePage} />
                <Route exact path='/manga-page' component={MangaPage} />
-               <Route exact path='/login' component={Login} />
+               <Route exact path='/login'><Login loggedIn={loggedIn} setLoggedIn={setLoggedIn} user={user} setUser={setUser} /></Route>
                <Route exact path='/register' component={Register} />
             </Switch>
          </Router>

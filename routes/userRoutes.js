@@ -1,44 +1,70 @@
 const express = require('express');
-const bcrypt = require('bcryptjs');
+const passport = require('../config/passport/index');
 const User = require('../models/User');
 
 const router = express.Router();
 
-router.post('/api/register', (req, res) => {
-   const { email, password, password2 } = req.body;
-   let errorCount = 0;
-   const regValidation = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{6,20}$/;
-   const mailValidation = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
+const regValidation = /^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$/;
 
-   if (!email || !password || !password2) {
-      errorCount += 1;
-   }
-   if (!email.match(mailValidation)) {
-      errorCount += 1;
+router.post('/api/register', (req, res) => {
+   const { user, password, password2 } = req.body;
+   const errors = [];
+
+   if (!user || !password || !password2) {
+      errors.push({ msg: 'Must fill out all fields!' });
    }
    if (password !== password2) {
-      errorCount += 1;
+      errors.push({ msg: 'Passwords must match!' });
+   }
+   if (password.length < 6 || password.length > 20) {
+      errors.push({ msg: 'Password must be between 6-20 characters!' });
    }
    if (!password.match(regValidation)) {
-      errorCount += 1;
+      errors.push({
+         msg: 'Password must contain an uppercase, lowercase, and number!',
+      });
+   }
+   if (errors.length > 0) {
+      res.send(errors);
+      return;
    }
 
-   if (errorCount === 0) {
-      User.findOne({ email })
-         // eslint-disable-next-line consistent-return
-         .then((result) => {
-            if (result) {
-               return res.sendStatus(409);
-            }
-            bcrypt.hash(password, 10, (err, hash) => {
-               if (err) throw err;
+   User.findOne({ user })
+      // eslint-disable-next-line consistent-return
+      .then((result) => {
+         if (result) {
+            errors.push({ msg: 'User already exists!' });
+            res.send(errors);
+            return;
+         }
 
-               User.create({ email, password: hash }, (error) => {
-                  if (error) throw error;
-               });
-            });
+         User.create({ user, password }, (error) => {
+            if (error) throw error;
+            // eslint-disable-next-line no-unused-vars
          });
+         res.json('OK');
+      });
+});
+
+// eslint-disable-next-line consistent-return
+router.post('/api/login', passport.authenticate('local'), (req, res) => {
+   const user = JSON.parse(JSON.stringify(req.user));
+   const cleanUser = { ...user };
+
+   if (cleanUser) {
+      delete cleanUser.password;
    }
+   res.json({ user: cleanUser });
+});
+
+router.get('/api/user', (req, res) => {
+   if (req.user) return res.json({ user: req.user });
+   return res.json({ user: null });
+});
+
+router.get('/api/logout', (req, res) => {
+   req.logout();
+   res.json('Successfully logged out');
 });
 
 module.exports = router;

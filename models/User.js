@@ -1,9 +1,15 @@
 const mongoose = require('mongoose');
 
-const UserSchema = mongoose.Schema({
-   email: {
+const { Schema } = mongoose;
+const bcrypt = require('bcryptjs');
+
+const UserSchema = new Schema({
+   user: {
       type: String,
       required: true,
+      index: {
+         unique: true,
+      },
    },
    password: {
       type: String,
@@ -13,6 +19,25 @@ const UserSchema = mongoose.Schema({
       type: Date,
       default: Date.now,
    },
+});
+
+UserSchema.methods = {
+   checkPassword(inputPass) {
+      return bcrypt.compareSync(inputPass, this.password);
+   },
+   hashPassword(plainPass) {
+      return bcrypt.hashSync(plainPass, 10);
+   },
+};
+
+// eslint-disable-next-line func-names
+UserSchema.pre('save', function (next) {
+   if (!this.password) {
+      next();
+   } else {
+      this.password = this.hashPassword(this.password);
+      next();
+   }
 });
 
 const User = mongoose.model('User', UserSchema);

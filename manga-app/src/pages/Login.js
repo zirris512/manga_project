@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
+import ErrorAlert from '../components/ErrorAlert/ErrorAlert';
 
-function Login() {
+const Login = (props) => {
    const [credentials, setCredentials] = useState({
-      email: '',
+      user: '',
       password: '',
       remember: false
    });
+   const [errors, setErrors] = useState([]);
+   const [redirectTo, setRedirectTo] = useState(null);
 
    useEffect(() => {
       if (localStorage.remember && localStorage.email !== '') {
@@ -14,30 +17,62 @@ function Login() {
       }
    }, []);
 
-   const handleSubmit = (e) => {
-      e.preventDefault();
-      const { email, remember} = credentials;
-
-      if (remember && email !== '') {
-         localStorage.email = email;
+   const checkRemember = (user, remember) => {
+      if (remember && user !== '') {
+         localStorage.user = user;
          localStorage.remember = remember;
       }
-      if (!remember && localStorage.remember && localStorage.email) {
-         localStorage.removeItem('email');
+      if (!remember && localStorage.remember && localStorage.user) {
+         localStorage.removeItem('user');
          localStorage.removeItem('remember');
+      }
+   }
+
+   const handleSubmit = async (e) => {
+      e.preventDefault();
+
+      setErrors([]);
+      const { user, password, remember } = credentials;
+
+      const formatUser = user.toLowerCase();
+
+      checkRemember(user, remember);
+
+      try {
+         const data = await fetch('/api/login', {
+            method: 'post',
+            body: JSON.stringify({ user: formatUser, password }),
+            headers: {
+               'Content-Type': 'application/json'
+            }
+         });
+         const response = await data.json();
+         console.log(response);
+         
+         if (data.status !== 200) {
+            console.log(response);
+         } else {
+            props.setLoggedIn(true);
+            props.setUser(formatUser);
+            setRedirectTo('/dashboard');
+         }
+
+      } catch (err) {
+         console.error(err);
       }
    }
 
    return (
       <div className='container my-4'>
+         <ErrorAlert errors={errors} setErrors={setErrors} />
          <div className='row d-flex justify-content-center'>
             <div className='col-md-4 login-form'>
                <form onSubmit={handleSubmit}>
                   <h3 className='text-center'>Sign In</h3>
 
                   <div className='form-group'>
-                     <label>Email address</label>
-                     <input type='email' className='form-control' placeholder='Enter email' value={credentials.email} onChange={e => setCredentials({...credentials, email: e.target.value})} />
+                     <label>Username</label>
+                     <input type='text' className='form-control' placeholder='Enter username' value={credentials.user} onChange={e => setCredentials({...credentials, user: e.target.value})} />
                   </div>
 
                   <div className='form-group'>
@@ -59,6 +94,7 @@ function Login() {
                </form>
             </div>
          </div>
+         {redirectTo && <Redirect to={redirectTo} />}
       </div>
    )
 }
