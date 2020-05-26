@@ -47,13 +47,12 @@ const Login = (props) => {
             }
          });
          const response = await data.json();
-         console.log(response);
          
          if (data.status !== 200) {
-            console.log(response);
+            setErrors((prevState) => [...prevState, { msg: 'An error has occurred' }])
          } else {
             props.setLoggedIn(true);
-            props.setUser(formatUser);
+            props.setUser(response.user.user);
             setRedirectTo('/dashboard');
          }
 

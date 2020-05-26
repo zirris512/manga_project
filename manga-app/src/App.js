@@ -40,7 +40,7 @@ const App = () => {
          const data = await fetch('/api/user');
          const response = await data.json();
    
-         if (response.user.user) {
+         if (response.user) {
             setLoggedIn(true);
             setUser(response.user.user);
          } else {
