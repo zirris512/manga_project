@@ -6,6 +6,7 @@ const router = express.Router();
 
 const regValidation = /^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$/;
 
+// eslint-disable-next-line consistent-return
 router.post('/api/register', (req, res) => {
    const { user, password, password2 } = req.body;
    const errors = [];
@@ -25,28 +26,22 @@ router.post('/api/register', (req, res) => {
       });
    }
    if (errors.length > 0) {
-      res.send(errors);
-      return;
+      return res.send(errors);
    }
 
-   User.findOne({ user })
-      // eslint-disable-next-line consistent-return
-      .then((result) => {
-         if (result) {
-            errors.push({ msg: 'User already exists!' });
-            res.send(errors);
-            return;
-         }
+   User.findOne({ user }).then((result) => {
+      if (result) {
+         errors.push({ msg: 'User already exists!' });
+         return res.send(errors);
+      }
 
-         User.create({ user, password }, (error) => {
-            if (error) throw error;
-            // eslint-disable-next-line no-unused-vars
-         });
-         res.json('OK');
+      User.create({ user, password }, (error) => {
+         if (error) throw error;
       });
+      return res.json('OK');
+   });
 });
 
-// eslint-disable-next-line consistent-return
 router.post('/api/login', passport.authenticate('local'), (req, res) => {
    const user = JSON.parse(JSON.stringify(req.user));
    const cleanUser = { ...user };
@@ -54,7 +49,7 @@ router.post('/api/login', passport.authenticate('local'), (req, res) => {
    if (cleanUser) {
       delete cleanUser.password;
    }
-   res.json({ user: cleanUser });
+   return res.json({ user: cleanUser });
 });
 
 router.get('/api/user', (req, res) => {
@@ -64,6 +59,8 @@ router.get('/api/user', (req, res) => {
 
 router.get('/api/logout', (req, res) => {
    req.logout();
+   req.session.destroy();
+   res.clearCookie('connect.sid');
    res.json('Successfully logged out');
 });
 
