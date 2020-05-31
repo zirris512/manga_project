@@ -19,6 +19,7 @@ const GET_MANGA = gql`
                romaji
             }
             coverImage {
+               medium
                large
             }
          }

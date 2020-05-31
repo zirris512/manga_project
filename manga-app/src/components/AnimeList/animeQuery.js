@@ -19,6 +19,7 @@ const GET_ANIME = gql`
                romaji
             }
             coverImage {
+               medium
                large
             }
          }
@@ -52,6 +53,7 @@ const AnimeQuery = ({ search, perPage }) => {
 
                return (
                   <div className='col-md-3 col-sm-6 col-xs-6 my-2' key={key}>
+                     <button className="btn btn-outline-primary add-button">&#43;</button>
                      <Link to={`/anime-page/${value.id}`}>
                         <h3>{value.title.english ? value.title.english : value.title.romaji}</h3>
                         <img src={imgString} alt={imgString.substring(imgString.lastIndexOf('/') + 1)}/>
