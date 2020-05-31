@@ -9,6 +9,7 @@ import MangaPage from './pages/MangaPage';
 import MangaSinglePage from './pages/MangaSinglePage'
 import Login from './pages/Login';
 import Register from './pages/Register';
+import Dashboard from './pages/Dashboard';
 import Jumbotron from './components/Jumbotron/index';
 import Nav from './components/Nav/index';
 import { ApolloClient } from 'apollo-client';
@@ -62,8 +63,9 @@ const App = () => {
                <Route exact path='/' component={Home}/>
                <Route exact path='/anime-page' component={AnimePage} />
                <Route exact path='/manga-page' component={MangaPage} />
-               <Route exact path='/login'><Login loggedIn={loggedIn} setLoggedIn={setLoggedIn} user={user} setUser={setUser} /></Route>
+               <Route exact path='/login'><Login setLoggedIn={setLoggedIn} setUser={setUser} /></Route>
                <Route exact path='/register' component={Register} />
+               <Route exact path ='/dashboard'><Dashboard loggedIn={loggedIn}/></Route>
             </Switch>
          </Router>
       </ApolloProvider>

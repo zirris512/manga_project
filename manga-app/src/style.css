@@ -46,6 +46,12 @@ nav {
    box-shadow: none;
 }
 
+.add-button {
+   position: absolute;
+   top: 0;
+   right: 0;
+}
+
 @media (max-width: 768px) {
 
    .jumbotron {

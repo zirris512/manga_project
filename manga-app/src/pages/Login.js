@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import ErrorAlert from '../components/ErrorAlert/ErrorAlert';
 
-const Login = (props) => {
+const Login = ({ setLoggedIn, setUser }) => {
    const [credentials, setCredentials] = useState({
       user: '',
       password: '',
@@ -51,8 +51,8 @@ const Login = (props) => {
          if (data.status !== 200) {
             setErrors((prevState) => [...prevState, { msg: 'An error has occurred' }])
          } else {
-            props.setLoggedIn(true);
-            props.setUser(response.user.user);
+            setLoggedIn(true);
+            setUser(response.user.user);
             setRedirectTo('/dashboard');
          }
 
