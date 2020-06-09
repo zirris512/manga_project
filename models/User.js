@@ -19,6 +19,12 @@ const UserSchema = new Schema({
       type: Date,
       default: Date.now,
    },
+   favorites: [
+      {
+         type: Schema.Types.ObjectId,
+         ref: 'Favorites',
+      },
+   ],
 });
 
 UserSchema.methods = {
