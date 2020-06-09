@@ -31,7 +31,8 @@ app.use(passport.session());
 
 app.use(cors(corsOptions));
 
-app.use('/', require('./routes/userRoutes'));
+app.use('/api', require('./routes/userRoutes'));
+app.use('/api', require('./routes/favoriteRoutes'));
 
 if (process.env.NODE_ENV === 'production') {
    app.use(express.static('manga-app/build'));
