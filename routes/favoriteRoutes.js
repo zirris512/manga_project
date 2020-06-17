@@ -7,7 +7,7 @@ const router = express.Router();
 router.post('/addFavorite', isAuthenticated, (req, res, next) => {
    const { listID, title, image } = req.body;
    // eslint-disable-next-line no-underscore-dangle
-   const id = '5edfe1de204bfc4134a01f59';
+   const id = req.user._id;
    const newFav = {
       listID,
       title,
@@ -28,7 +28,7 @@ router.post('/addFavorite', isAuthenticated, (req, res, next) => {
 
 router.get('/populate', isAuthenticated, (req, res, next) => {
    // eslint-disable-next-line no-underscore-dangle
-   const id = '5edfe1de204bfc4134a01f59';
+   const id = req.user._id;
 
    db.User.findById(id)
       .populate('favorites')
@@ -42,12 +42,13 @@ router.get('/populate', isAuthenticated, (req, res, next) => {
 
 router.delete('/removeFavorite/:id', isAuthenticated, (req, res, next) => {
    // eslint-disable-next-line no-underscore-dangle
-   const id = '5edfe1de204bfc4134a01f59';
-   // eslint-disable-next-line no-underscore-dangle
-   db.User.findByIdAndUpdate(id, { $pull: { favorites: req.params.id } })
+   const id = req.user._id;
+   db.User.findByIdAndUpdate(id, {
+      $pull: { favorites: { listID: req.params.id } },
+   })
       .then((response) => {
          if (response) {
-            db.Favorites.findById(req.params.id).then((data) => {
+            db.Favorites.find({ listID: req.params.id }).then((data) => {
                console.log(data);
                data.remove();
             });
@@ -57,7 +58,6 @@ router.delete('/removeFavorite/:id', isAuthenticated, (req, res, next) => {
       .catch((err) => {
          if (err) next(err);
       });
-   // eslint-disable-next-line no-underscore-dangle
 });
 
 module.exports = router;

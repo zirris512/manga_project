@@ -58,7 +58,7 @@ const App = () => {
          <Router>
             <Nav loggedIn={loggedIn} setLoggedIn={setLoggedIn} user={user} setUser={setUser} />
             <Switch>
-               <Route exact path='/anime-page/:id' component={AnimeSinglePage} />
+               <Route exact path='/anime-page/:id'><AnimeSinglePage loggedIn={loggedIn} /></Route>
                <Route exact path='/manga-page/:id' component={MangaSinglePage} />
                <Route exact path='/' component={Home}/>
                <Route exact path='/anime-page' component={AnimePage} />
