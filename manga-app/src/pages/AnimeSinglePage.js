@@ -35,8 +35,9 @@ const GET_SINGLE_ANIME = gql`
    }
 `;
 
-const AnimeSinglePage = () => {
+const AnimeSinglePage = ({ loggedIn }) => {
    const { id } = useParams();
+   let title = '';
 
    const { data, loading, error } = useQuery(GET_SINGLE_ANIME, {
       variables: {
@@ -44,19 +45,32 @@ const AnimeSinglePage = () => {
       }
    });
 
+   const addFavorite = (id, title, image) => {
+      fetch('/api/addFavorite', {
+         method: 'post',
+         body: JSON.stringify({ listID: id, title, image}),
+         headers: {
+            'Content-Type': 'application/json'
+         }
+      })
+   }
+
    if (loading) return <h1>Loading...</h1>;
    if (error) return <h2>ERROR: {error.message}</h2>;
    if (!data) return <h2>No Data Found</h2>;
 
    const { Media } = data;
    const imgString = Media.coverImage.extraLarge;
+
+   if (Media.title.english) title = Media.title.english;
+   else title = Media.title.romaji;
    
    return (
       <div className='container'>
-         <h1 className='my-1'>{Media.title.english ? Media.title.english : Media.title.romaji}</h1>
+         <h1 className='my-1'>{title}</h1>
          <div className='row'>
             <div className='col-md-6'>
-               <img src={Media.coverImage.extraLarge} alt={imgString.substring(imgString.lastIndexOf('/') + 1)} className='my-2 anime-img' />
+               <img src={imgString} alt={imgString.substring(imgString.lastIndexOf('/') + 1)} className='my-2 anime-img' />
             </div>
             <div className='col-md-6'>
                <p><strong>Description: </strong><span dangerouslySetInnerHTML={{__html: Media.description}}></span></p>
@@ -64,6 +78,7 @@ const AnimeSinglePage = () => {
                <p><strong>Airing Dates: </strong>{Media.startDate.month}/{Media.startDate.year} - {Media.endDate.month}/{Media.endDate.year}</p>
                <p><strong># of Episodes: </strong>{Media.episodes}</p>
                <p><strong>Episode Duration: </strong>{Media.duration} mins</p>
+               {loggedIn && <button className='btn btn-outline-info' onClick={() => addFavorite(id, title, imgString)}>&#43; Add Favorite</button>}
             </div>
          </div>
          <h2>Stream Episodes:</h2>

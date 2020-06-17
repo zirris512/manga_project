@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import AnimeQuery from '../components/AnimeList/animeQuery'
 
 const AnimePage = () => {
-   const [search, setSearch] = useState();
    const [newSearch, setNewSearch] = useState();
 
    return (
@@ -10,12 +9,10 @@ const AnimePage = () => {
          <div className='row'>
             <div className='col-md-4 col-sm-6'>
                <form className='form-inline input-group my-2' onSubmit={e => e.preventDefault()}>
-                  <input id='search-bar' className='form-control' type='text' placeholder='Search' value={search} onChange={e => {
-                     setSearch(e.target.value);
-                  }} onKeyDown={e => {
+                  <input id='search-bar' className='form-control' type='text' placeholder='Search' onKeyDown={e => {
                      if(e.key === 'Enter') {
                         setNewSearch(e.target.value);
-                        setSearch('');
+                        e.target.value = '';
                      }
                   }} />
                </form>

@@ -52,6 +52,11 @@ nav {
    right: 0;
 }
 
+.fav-img {
+   max-height: 300px;
+   max-width: 150px;
+}
+
 @media (max-width: 768px) {
 
    .jumbotron {

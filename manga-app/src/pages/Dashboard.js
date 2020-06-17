@@ -1,14 +1,34 @@
 import React, { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom';
 
 const Dashboard = ({ loggedIn }) => {
+
+   const [data, setData] = useState([]);
+
+   useEffect(() => {
+      fetch('/api/populate')
+      .then((response) => {
+         return response.json()
+      })
+      .then((data) => {
+         const favoriteArr = data.favorites;
+         setData(favoriteArr);
+      });
+   }, []);
+
    if (loggedIn) {
       return (
          <div className='container'>
+            <h2>Favorite List</h2>
             <div className='row'>
-               <p>Anime List</p>
-            </div>
-            <div className='row'>
-               <p>Manga List</p>
+               {data.map((value, key) => (
+                  <div className='col-md-4' key={key}>
+                     <Link to={`/anime-page/${value.listID}`}>
+                        <p style={{fontSize: '20px'}}>{value.title}</p>
+                        <img className='fav-img' src={value.image} alt=''/>
+                     </Link>
+                  </div>
+               ))}
             </div>
          </div>
       )
