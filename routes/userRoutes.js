@@ -43,15 +43,23 @@ router.post('/register', (req, res) => {
    });
 });
 
-router.post('/login', passport.authenticate('local'), (req, res) => {
-   const user = JSON.parse(JSON.stringify(req.user));
-   const cleanUser = { ...user };
+router.post(
+   '/login',
+   passport.authenticate('local', { failWithError: true }),
+   (req, res) => {
+      const user = JSON.parse(JSON.stringify(req.user));
+      const cleanUser = { ...user };
 
-   if (cleanUser) {
-      delete cleanUser.password;
+      if (cleanUser) {
+         delete cleanUser.password;
+      }
+      return res.json({ user: cleanUser });
+   },
+   // eslint-disable-next-line no-unused-vars
+   (err, req, res, _next) => {
+      return res.json('Incorrect user/password');
    }
-   return res.json({ user: cleanUser });
-});
+);
 
 router.get('/user', (req, res) => {
    if (req.user) return res.json({ user: req.user });
