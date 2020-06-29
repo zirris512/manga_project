@@ -47,9 +47,11 @@ const Login = ({ setLoggedIn, setUser }) => {
             }
          });
          const response = await data.json();
+
+         console.log(response);
          
          if (data.status !== 200) {
-            setErrors((prevState) => [...prevState, { msg: 'An error has occurred' }])
+            setErrors((prevState) => [...prevState, { msg: response }])
          } else {
             setLoggedIn(true);
             setUser(response.user.user);

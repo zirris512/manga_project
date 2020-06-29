@@ -40,24 +40,44 @@ router.get('/populate', isAuthenticated, (req, res, next) => {
       });
 });
 
-router.delete('/removeFavorite/:id', isAuthenticated, (req, res, next) => {
+router.delete('/removeFavorite/:id', (req, res, next) => {
    // eslint-disable-next-line no-underscore-dangle
-   const id = req.user._id;
-   db.User.findByIdAndUpdate(id, {
-      $pull: { favorites: { listID: req.params.id } },
-   })
-      .then((response) => {
-         if (response) {
-            db.Favorites.find({ listID: req.params.id }).then((data) => {
-               console.log(data);
-               data.remove();
+   // const id = req.user._id;
+   const id = '5ef9762ad57b863b887677ea';
+   // db.User.findByIdAndUpdate(id, {
+   //    $pull: { favorites: { listID: req.params.id } },
+   // })
+   //    .then((response) => {
+   //       if (response) {
+   //          db.Favorites.find({ listID: req.params.id }).then((data) => {
+   //             console.log(data);
+   //             data.remove();
+   //          });
+   //       }
+   //       res.json('Successfully deleted');
+   //    })
+   //    .catch((err) => {
+   //       if (err) next(err);
+   //    });
+   db.Favorites.findOne({ _id: req.params.id }).then((response) => {
+      if (response) {
+         // eslint-disable-next-line no-underscore-dangle
+         const favoriteID = response._id;
+         console.log(response);
+
+         response.remove();
+
+         db.User.findByIdAndUpdate(id, {
+            $pull: { favorites: favoriteID },
+         })
+            .then(() => {
+               res.json('Successfully deleted');
+            })
+            .catch((err) => {
+               next(err);
             });
-         }
-         res.json('Successfully deleted');
-      })
-      .catch((err) => {
-         if (err) next(err);
-      });
+      }
+   });
 });
 
 module.exports = router;
