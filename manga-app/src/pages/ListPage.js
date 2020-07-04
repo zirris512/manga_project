@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import AnimeQuery from '../components/AnimeList/animeQuery'
+import ApiQuery from '../components/Query/ApiQuery'
 
-const AnimePage = () => {
+const AnimePage = ({ type }) => {
    const [newSearch, setNewSearch] = useState();
 
    return (
@@ -18,7 +18,7 @@ const AnimePage = () => {
                </form>
             </div>
          </div>
-         <AnimeQuery perPage={20} search={newSearch} />
+         <ApiQuery perPage={20} search={newSearch} type={type} />
       </div>
    )
 }

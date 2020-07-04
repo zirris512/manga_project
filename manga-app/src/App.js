@@ -3,10 +3,8 @@ import 'bootswatch/dist/darkly/bootstrap.min.css';
 import './style.css';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import Home from './pages/Home';
-import AnimePage from './pages/AnimePage';
-import AnimeSinglePage from './pages/AnimeSinglePage'
-import MangaPage from './pages/MangaPage';
-import MangaSinglePage from './pages/MangaSinglePage'
+import ListPage from './pages/ListPage';
+import SinglePage from './pages/SinglePage'
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
@@ -58,11 +56,10 @@ const App = () => {
          <Router>
             <Nav loggedIn={loggedIn} setLoggedIn={setLoggedIn} user={user} setUser={setUser} />
             <Switch>
-               <Route exact path='/anime-page/:id'><AnimeSinglePage loggedIn={loggedIn} /></Route>
-               <Route exact path='/manga-page/:id' component={MangaSinglePage} />
+               <Route exact path='/single-page/:type/:id'><SinglePage loggedIn={loggedIn}/></Route>
                <Route exact path='/' component={Home}/>
-               <Route exact path='/anime-page' component={AnimePage} />
-               <Route exact path='/manga-page' component={MangaPage} />
+               <Route exact path='/anime-page'><ListPage type='ANIME'/></Route>
+               <Route exact path='/manga-page'><ListPage type='MANGA'/></Route>
                <Route exact path='/login'><Login setLoggedIn={setLoggedIn} setUser={setUser} /></Route>
                <Route exact path='/register' component={Register} />
                <Route exact path ='/dashboard'><Dashboard loggedIn={loggedIn}/></Route>
