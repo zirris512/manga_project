@@ -6,18 +6,23 @@ const Dashboard = ({ loggedIn }) => {
    const [data, setData] = useState([]);
 
    const removeItem = async item => {
-      const response = await fetch(`/api/removeFavorite/${item}`, {
-         method: 'delete',
-      });
-
-      const result = await response.json();
-
-      if (result === 'OK') {
-         const newList = data.filter(value => {
-            return value._id !== item;
+      try {
+         const response = await fetch(`/api/removeFavorite/${item}`, {
+            method: 'delete',
          });
    
-         setData(newList);   
+         const result = await response.json();
+   
+         if (result === 'OK') {
+            const newList = data.filter(value => {
+               return value._id !== item;
+            });
+      
+            setData(newList);   
+         }   
+      }
+      catch(err) {
+         console.error(err);
       }
    }
 
@@ -40,7 +45,7 @@ const Dashboard = ({ loggedIn }) => {
             <div className='row'>
                {data.map((value) => (
                   <div className='col-md-4' key={value._id}>
-                     <button value={value._id} onClick={e => removeItem(e.target.value)}>&times;</button>
+                     <button className='btn btn-outline-primary' value={value._id} onClick={e => removeItem(e.target.value)}>&times;</button>
                      <Link to={`/anime-page/${value.listID}`}>
                         <p style={{fontSize: '20px'}}>{value.title}</p>
                         <img className='fav-img' src={value.image} alt=''/>
