@@ -80,6 +80,7 @@ const SinglePage = ({ loggedIn }) => {
                <p><strong>Airing Dates: </strong>{Media.startDate.month}/{Media.startDate.year} - {Media.endDate.month}/{Media.endDate.year}</p>
                <p><strong># of Volumes: </strong>{Media.volumes}</p>
                <p><strong># of Chapters: </strong>{Media.chapters}</p>
+               {loggedIn && <button className='btn btn-outline-info' onClick={() => addFavorite(id, title, imgString)}>&#43; Add Favorite</button>}
             </div>
          </div>
       </div>

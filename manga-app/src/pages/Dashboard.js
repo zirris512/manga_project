@@ -5,6 +5,22 @@ const Dashboard = ({ loggedIn }) => {
 
    const [data, setData] = useState([]);
 
+   const removeItem = async item => {
+      const response = await fetch(`/api/removeFavorite/${item}`, {
+         method: 'delete',
+      });
+
+      const result = await response.json();
+
+      if (result === 'OK') {
+         const newList = data.filter(value => {
+            return value._id !== item;
+         });
+   
+         setData(newList);   
+      }
+   }
+
    useEffect(() => {
       fetch('/api/populate')
       .then((response) => {
@@ -14,6 +30,7 @@ const Dashboard = ({ loggedIn }) => {
          const favoriteArr = data.favorites;
          setData(favoriteArr);
       });
+
    }, []);
 
    if (loggedIn) {
@@ -21,8 +38,9 @@ const Dashboard = ({ loggedIn }) => {
          <div className='container'>
             <h2>Favorite List</h2>
             <div className='row'>
-               {data.map((value, key) => (
-                  <div className='col-md-4' key={key}>
+               {data.map((value) => (
+                  <div className='col-md-4' key={value._id}>
+                     <button value={value._id} onClick={e => removeItem(e.target.value)}>&times;</button>
                      <Link to={`/anime-page/${value.listID}`}>
                         <p style={{fontSize: '20px'}}>{value.title}</p>
                         <img className='fav-img' src={value.image} alt=''/>

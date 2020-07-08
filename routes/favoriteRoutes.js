@@ -55,7 +55,7 @@ router.delete('/removeFavorite/:id', isAuthenticated, (req, res, next) => {
             $pull: { favorites: favoriteID },
          })
             .then(() => {
-               res.json('Successfully deleted');
+               res.json('OK');
             })
             .catch((err) => {
                next(err);
