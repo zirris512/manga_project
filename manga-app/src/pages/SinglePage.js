@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useQuery } from '@apollo/react-hooks';
 import { useParams } from 'react-router-dom';
 import { GET_SINGLE_ANIME, GET_SINGLE_MANGA } from '../data/queries';
 
-const SinglePage = ({ loggedIn }) => {
+const SinglePage = ({ loggedIn, favList, setFavList }) => {
    const { id, type } = useParams();
    let title = '';
 
@@ -13,14 +13,40 @@ const SinglePage = ({ loggedIn }) => {
       }
    });
 
-   const addFavorite = (id, title, image) => {
+   const [added, setAdded] = useState(false);
+
+   useEffect(() => {
+      if (favList.length > 0) {
+         favList.map(value => {
+            if (value.listID === parseInt(id)) {
+               setAdded(true);
+            }
+         })
+      }
+   }, [favList]);
+
+   const addFavorite = (id, title, image, type) => {
       fetch('/api/addFavorite', {
          method: 'post',
-         body: JSON.stringify({ listID: id, title, image}),
+         body: JSON.stringify({ listID: id, title, image, type}),
          headers: {
             'Content-Type': 'application/json'
          }
       })
+      .then(response => response.json())
+      .then(data => {
+         setFavList(prevState => [...prevState, data])
+      });
+      setAdded(true);
+   }
+
+   const buttonToggle = () => {
+      if (loggedIn && !added) {
+         return <button className='btn btn-outline-info' onClick={() => addFavorite(id, title, imgString, type)}>&#43; Add Favorite</button>
+      }
+      if (loggedIn && added) {
+         return <button className='btn btn-outline-info' disabled={true} onClick={() => addFavorite(id, title, imgString, type)}>&#10003; Add Favorite</button>
+      }
    }
 
    if (loading) return <h1>Loading...</h1>;
@@ -47,7 +73,7 @@ const SinglePage = ({ loggedIn }) => {
                   <p><strong>Airing Dates: </strong>{Media.startDate.month}/{Media.startDate.year} - {Media.endDate.month}/{Media.endDate.year}</p>
                   <p><strong># of Episodes: </strong>{Media.episodes}</p>
                   <p><strong>Episode Duration: </strong>{Media.duration} mins</p>
-                  {loggedIn && <button className='btn btn-outline-info' onClick={() => addFavorite(id, title, imgString)}>&#43; Add Favorite</button>}
+                  {buttonToggle()}
                </div>
             </div>
             <h2>Stream Episodes:</h2>
@@ -80,6 +106,7 @@ const SinglePage = ({ loggedIn }) => {
                <p><strong>Airing Dates: </strong>{Media.startDate.month}/{Media.startDate.year} - {Media.endDate.month}/{Media.endDate.year}</p>
                <p><strong># of Volumes: </strong>{Media.volumes}</p>
                <p><strong># of Chapters: </strong>{Media.chapters}</p>
+               {buttonToggle()}
             </div>
          </div>
       </div>

@@ -12,8 +12,9 @@ const Login = ({ setLoggedIn, setUser }) => {
    const [redirectTo, setRedirectTo] = useState(null);
 
    useEffect(() => {
-      if (localStorage.remember && localStorage.email !== '') {
-         setCredentials({...credentials, remember: localStorage.remember, email: localStorage.email})
+      if (localStorage.remember && localStorage.user !== '') {
+         const rememberBool = (localStorage.remember === 'true');
+         setCredentials({...credentials, remember: rememberBool, user: localStorage.user})
       }
    }, []);
 
@@ -47,8 +48,6 @@ const Login = ({ setLoggedIn, setUser }) => {
             }
          });
          const response = await data.json();
-
-         console.log(response);
          
          if (data.status !== 200) {
             setErrors((prevState) => [...prevState, { msg: response }])

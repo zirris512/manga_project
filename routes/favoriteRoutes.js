@@ -5,25 +5,26 @@ const isAuthenticated = require('../config/passport/isAuthenticated');
 const router = express.Router();
 
 router.post('/addFavorite', isAuthenticated, (req, res, next) => {
-   const { listID, title, image } = req.body;
+   const { listID, title, image, type } = req.body;
    // eslint-disable-next-line no-underscore-dangle
    const id = req.user._id;
    const newFav = {
       listID,
       title,
       image,
+      type,
    };
 
    db.Favorites.create(newFav).then((response) => {
-      return db.User.findOneAndUpdate(
+      db.User.findOneAndUpdate(
          { _id: id },
          // eslint-disable-next-line no-underscore-dangle
          { $push: { favorites: response._id } }
       ).catch((err) => {
          if (err) next(err);
       });
+      res.json(response);
    });
-   res.json('OK');
 });
 
 router.get('/populate', isAuthenticated, (req, res, next) => {
@@ -47,7 +48,6 @@ router.delete('/removeFavorite/:id', isAuthenticated, (req, res, next) => {
       if (response) {
          // eslint-disable-next-line no-underscore-dangle
          const favoriteID = response._id;
-         console.log(response);
 
          response.remove();
 
@@ -55,7 +55,7 @@ router.delete('/removeFavorite/:id', isAuthenticated, (req, res, next) => {
             $pull: { favorites: favoriteID },
          })
             .then(() => {
-               res.json('Successfully deleted');
+               res.json('OK');
             })
             .catch((err) => {
                next(err);
