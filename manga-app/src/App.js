@@ -33,6 +33,7 @@ const client = new ApolloClient({
 const App = () => {
    const [loggedIn, setLoggedIn] = useState(false);
    const [user, setUser] = useState(null);
+   const [favList, setFavList] = useState([]);
 
    useEffect(() => {
       const checkUser = async () => {
@@ -42,13 +43,20 @@ const App = () => {
          if (response.user) {
             setLoggedIn(true);
             setUser(response.user.user);
+
+            fetch('/api/populate')
+            .then((response) => response.json())
+            .then((data) => {
+               const favoriteArr = data.favorites;
+               setFavList(favoriteArr);
+            });      
          } else {
             setLoggedIn(false);
             setUser(null);
          }   
       }
       checkUser();
-   }, []);
+   }, [loggedIn]);
 
    return (
       <ApolloProvider client={client}>
@@ -56,13 +64,13 @@ const App = () => {
          <Router>
             <Nav loggedIn={loggedIn} setLoggedIn={setLoggedIn} user={user} setUser={setUser} />
             <Switch>
-               <Route exact path='/single-page/:type/:id'><SinglePage loggedIn={loggedIn}/></Route>
+               <Route exact path='/single-page/:type/:id'><SinglePage loggedIn={loggedIn} favList={favList} setFavList={setFavList}/></Route>
                <Route exact path='/' component={Home}/>
                <Route exact path='/anime-page'><ListPage type='ANIME'/></Route>
                <Route exact path='/manga-page'><ListPage type='MANGA'/></Route>
                <Route exact path='/login'><Login setLoggedIn={setLoggedIn} setUser={setUser} /></Route>
                <Route exact path='/register' component={Register} />
-               <Route exact path ='/dashboard'><Dashboard loggedIn={loggedIn}/></Route>
+               <Route exact path ='/dashboard'><Dashboard loggedIn={loggedIn} favList={favList} setFavList={setFavList}/></Route>
             </Switch>
          </Router>
       </ApolloProvider>
