@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import PageNav from '../PageNav/PageNav';
 import { GET_ANIME, GET_MANGA } from '../../data/queries';
 
-const ApiQuery = ({ search, perPage, type }) => {
+const ApiQuery = ({ search, perPage, type, sort, isHome }) => {
    const [page, setPage] = useState(1);
 
    const { data, loading, error } = useQuery(type === 'ANIME' ? GET_ANIME : GET_MANGA, {
@@ -12,7 +12,8 @@ const ApiQuery = ({ search, perPage, type }) => {
          search,
          perPage,
          page,
-         type
+         type,
+         sort
    }});
 
    useEffect(() => {
@@ -40,11 +41,11 @@ const ApiQuery = ({ search, perPage, type }) => {
                )
             })}
          </div>
-         <PageNav page={page}
+         {!isHome && <PageNav page={page}
          setPage={setPage}
          hasNextPage={data.Page.pageInfo.hasNextPage}
          currentPage={data.Page.pageInfo.currentPage}
-         lastPage={data.Page.pageInfo.lastPage} />
+         lastPage={data.Page.pageInfo.lastPage} />}
       </>
    )
 }
