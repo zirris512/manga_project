@@ -4,12 +4,13 @@ import ApiQuery from '../components/Query/ApiQuery';
 const Home = () => {
    return (
       <>
-         <div className='container'>
-            <h2>Trending Anime</h2>
+         <div className='container home'>
+            <h2>Top 10 Trending Anime</h2>
             <ApiQuery perPage={10} type='ANIME' sort='TRENDING_DESC' isHome={true} />
          </div>
-         <div className='container'>
-            <h2>Trending Anime</h2>
+         <br />
+         <div className='container home'>
+            <h2>Top 10 Trending Manga</h2>
             <ApiQuery perPage={10} type='MANGA' sort='TRENDING_DESC' isHome={true} />
          </div>
 

@@ -57,6 +57,23 @@ nav {
    max-width: 150px;
 }
 
+.home > .row > .col-md-3 {
+   display: inline-block;
+   float: none;
+}
+
+.home > .row > .col-md-3 > a > h3 {
+   display: unset;
+   white-space: normal;
+   font-size: 1.2rem;
+}
+
+.home > .row {
+   overflow-x: auto;
+   white-space: nowrap;
+   flex-wrap: nowrap;
+}
+
 @media (max-width: 768px) {
 
    .jumbotron {
