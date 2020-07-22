@@ -1,14 +1,14 @@
 import gql from 'graphql-tag';
 
 export const GET_ANIME = gql`
-   query ($search: String, $perPage: Int, $page: Int, $type: MediaType) {
+   query ($search: String, $perPage: Int, $page: Int, $type: MediaType, $sort: [MediaSort]) {
       Page (page: $page, perPage: $perPage) {
          pageInfo {
             currentPage
             lastPage
             hasNextPage
          }
-         media(type: $type, search: $search, isAdult: false) {
+         media(type: $type, search: $search, isAdult: false, sort: $sort) {
             id
             title {
                english
@@ -24,14 +24,14 @@ export const GET_ANIME = gql`
 `;
 
 export const GET_MANGA = gql`
-   query ($search: String, $perPage: Int, $page: Int, $type: MediaType) {
+   query ($search: String, $perPage: Int, $page: Int, $type: MediaType, $sort: [MediaSort]) {
       Page (page: $page, perPage: $perPage) {
          pageInfo {
             currentPage
             lastPage
             hasNextPage
          }
-         media(type: $type, search: $search, isAdult: false) {
+         media(type: $type, search: $search, isAdult: false, sort: $sort) {
             id
             title {
                english

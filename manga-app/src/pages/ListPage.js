@@ -18,7 +18,7 @@ const AnimePage = ({ type }) => {
                </form>
             </div>
          </div>
-         <ApiQuery perPage={20} search={newSearch} type={type} />
+         <ApiQuery perPage={20} search={newSearch} type={type} sort={'ID'} isHome={false} />
       </div>
    )
 }
