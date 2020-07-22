@@ -14,6 +14,7 @@ router.post('/addFavorite', isAuthenticated, (req, res, next) => {
       image,
       type,
    };
+   console.log(newFav);
 
    db.Favorites.create(newFav).then((response) => {
       db.User.findOneAndUpdate(

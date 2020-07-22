@@ -13,7 +13,6 @@ const Home = () => {
             <h2>Top 10 Trending Manga</h2>
             <ApiQuery perPage={10} type='MANGA' sort='TRENDING_DESC' isHome={true} />
          </div>
-
       </>
    )
 }
