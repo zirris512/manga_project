@@ -28,7 +28,7 @@ const SinglePage = ({ loggedIn, favList, setFavList }) => {
    const addFavorite = (id, title, image, type) => {
       fetch('/api/addFavorite', {
          method: 'post',
-         body: JSON.stringify({ listID: id, title, image, type}),
+         body: JSON.stringify({ listID: id, title, image, type }),
          headers: {
             'Content-Type': 'application/json'
          }

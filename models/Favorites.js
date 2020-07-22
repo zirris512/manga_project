@@ -12,6 +12,9 @@ const FavoriteSchema = new Schema({
    image: {
       type: String,
    },
+   type: {
+      type: String,
+   },
    createdAt: {
       type: Date,
       default: Date.now,
