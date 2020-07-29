@@ -5,7 +5,7 @@ const Jumbotron = () => {
       <div className="jumbotron jumbotron-fluid text-center">
          <h1 className="header-title">Manga Project</h1>
       </div>
-   )
-}
+   );
+};
 
 export default Jumbotron;

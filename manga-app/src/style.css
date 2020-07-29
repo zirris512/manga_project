@@ -1,11 +1,11 @@
 .jumbotron {
    margin-bottom: 0px;
-   background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('./public/images/banner1.jpg');
+   background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
+      url('./public/images/banner1.jpg');
    background-repeat: no-repeat;
    background-size: 100% 100%;
    color: white;
 }
-
 
 .jumbotron h1 {
    font-size: 6em;
@@ -30,7 +30,7 @@ nav {
    box-sizing: border-box;
    font-size: 16px;
    background-image: url('./public/images/search-glass1.png');
-   background-position: left; 
+   background-position: left;
    background-repeat: no-repeat;
    padding: 12px 20px 12px 40px;
 }
@@ -75,7 +75,6 @@ nav {
 }
 
 @media (max-width: 768px) {
-
    .jumbotron {
       background-image: url('./public/images/banner_sm1.jpg');
       background-repeat: no-repeat;

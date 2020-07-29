@@ -1,8 +1,14 @@
 import gql from 'graphql-tag';
 
 export const GET_ANIME = gql`
-   query ($search: String, $perPage: Int, $page: Int, $type: MediaType, $sort: [MediaSort]) {
-      Page (page: $page, perPage: $perPage) {
+   query(
+      $search: String
+      $perPage: Int
+      $page: Int
+      $type: MediaType
+      $sort: [MediaSort]
+   ) {
+      Page(page: $page, perPage: $perPage) {
          pageInfo {
             currentPage
             lastPage
@@ -24,8 +30,14 @@ export const GET_ANIME = gql`
 `;
 
 export const GET_MANGA = gql`
-   query ($search: String, $perPage: Int, $page: Int, $type: MediaType, $sort: [MediaSort]) {
-      Page (page: $page, perPage: $perPage) {
+   query(
+      $search: String
+      $perPage: Int
+      $page: Int
+      $type: MediaType
+      $sort: [MediaSort]
+   ) {
+      Page(page: $page, perPage: $perPage) {
          pageInfo {
             currentPage
             lastPage
@@ -47,7 +59,7 @@ export const GET_MANGA = gql`
 `;
 
 export const GET_SINGLE_ANIME = gql`
-   query ($id: Int) {
+   query($id: Int) {
       Media(id: $id) {
          title {
             romaji
@@ -79,7 +91,7 @@ export const GET_SINGLE_ANIME = gql`
 `;
 
 export const GET_SINGLE_MANGA = gql`
-   query ($id: Int) {
+   query($id: Int) {
       Media(id: $id) {
          title {
             romaji
