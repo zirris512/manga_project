@@ -61,7 +61,7 @@ const SinglePage = ({ loggedIn, favList, setFavList }) => {
                disabled={true}
                onClick={() => addFavorite(id, title, imgString, type)}
             >
-               &#10003; Add Favorite
+               &#10003; Added
             </button>
          );
       }
