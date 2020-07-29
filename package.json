@@ -48,7 +48,6 @@
       "express": "^4.17.1",
       "express-graphql": "^0.9.0",
       "express-session": "^1.17.1",
-      "graphql": "^15.0.0",
       "if-env": "^1.0.4",
       "mongoose": "^5.9.12",
       "passport": "^0.4.1",
