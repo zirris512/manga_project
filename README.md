@@ -34,6 +34,7 @@ Deployed Page - [https://mangaproject.herokuapp.com/](https://mangaproject.herok
 -  [ ] Add comments sections
 -  [ ] Add footer
 -  [ ] Fix remove buttons
+-  [ ] Fix titles issue on dashboard
 -  [ ] Clean up DOM formatting
 
 ## License & Copyright
