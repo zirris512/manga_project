@@ -31,10 +31,10 @@ Deployed Page - [https://mangaproject.herokuapp.com/](https://mangaproject.herok
 
 ## Future Release
 
--  [] Add comments sections
--  [] Add footer
--  [] Fix remove buttons
--  [] Clean up DOM formatting
+-  [ ] Add comments sections
+-  [ ] Add footer
+-  [ ] Fix remove buttons
+-  [ ] Clean up DOM formatting
 
 ## License & Copyright
 
