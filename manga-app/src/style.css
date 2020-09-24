@@ -52,9 +52,29 @@ nav {
    right: 0;
 }
 
+.dash-card {
+   border: 1px solid green;
+   border-radius: 15px;
+   margin: 0 3px;
+}
+
 .fav-img {
    max-height: 300px;
    max-width: 150px;
+}
+
+.btn-div {
+   height: 30px;
+   width: 100%;
+   margin: 0;
+   padding: 0;
+   margin-bottom: 10px;
+}
+
+.remove-btn {
+   position: absolute;
+   top: 1%;
+   right: 5%;
 }
 
 .home > .row > .col-md-3 {
@@ -69,6 +89,21 @@ nav {
 }
 
 .home > .row {
+   overflow-x: auto;
+   white-space: nowrap;
+   flex-wrap: nowrap;
+}
+
+.dash > .row > .col-md-3 {
+   display: inline-block;
+   float: none;
+}
+
+.dash > .row > .col-md-3 > div > a > p {
+   white-space: normal;
+}
+
+.dash > .row {
    overflow-x: auto;
    white-space: nowrap;
    flex-wrap: nowrap;
