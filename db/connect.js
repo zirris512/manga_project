@@ -14,7 +14,7 @@ dbConnect.on("error", (err) => {
     console.log(`There was an error connecting to the database: ${err}`);
 });
 dbConnect.once("open", () => {
-    console.log(`Successfully connected to the database: ${DB_URI}`);
+    console.log("Successfully connected to the database!");
 });
 
 module.exports = dbConnect;
