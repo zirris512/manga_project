@@ -66,11 +66,13 @@ router.get("/user", (req, res) => {
     return res.json({ user: null });
 });
 
-router.get("/logout", (req, res) => {
-    req.logout();
-    req.session.destroy();
-    res.clearCookie("connect.sid");
-    res.json("Successfully logged out");
+router.post("/logout", (req, res) => {
+    req.logout((err) => {
+        if (err) return next(err);
+        req.session.destroy();
+        res.clearCookie("connect.sid");
+        res.json("Successfully logged out");
+    });
 });
 
 module.exports = router;
