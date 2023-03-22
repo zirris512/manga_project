@@ -1,10 +1,19 @@
-import React, { useState } from "react";
-import { Link, Redirect } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSignInAlt, faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
 
 const Nav = ({ loggedIn, setLoggedIn, user, setUser }) => {
-    const [redirectTo, setRedirectTo] = useState(null);
+    const [redirect, setRedirect] = useState(false);
+
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (redirect) {
+            setRedirect(false);
+            navigate("/");
+        }
+    }, [redirect, navigate]);
 
     const handleLogout = async (e) => {
         try {
@@ -13,14 +22,14 @@ const Nav = ({ loggedIn, setLoggedIn, user, setUser }) => {
             });
 
             if (response.status !== 200) {
-                console.log(response);
+                throw new Error(response);
             } else {
                 setLoggedIn(false);
                 setUser(null);
-                setRedirectTo("/");
+                setRedirect(true);
             }
         } catch (err) {
-            if (err) throw err;
+            if (err) console.error(err);
         }
     };
 
@@ -74,7 +83,6 @@ const Nav = ({ loggedIn, setLoggedIn, user, setUser }) => {
                     )}
                 </div>
             </div>
-            {redirectTo && <Redirect to={redirectTo} />}
         </nav>
     );
 };

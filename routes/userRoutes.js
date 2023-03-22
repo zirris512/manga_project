@@ -55,7 +55,6 @@ router.post(
         }
         return res.json({ user: cleanUser });
     },
-    // eslint-disable-next-line no-unused-vars
     (err, req, res, _next) => {
         return res.json("Incorrect user/password");
     }
