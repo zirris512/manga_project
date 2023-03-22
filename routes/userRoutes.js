@@ -36,8 +36,9 @@ router.post("/register", (req, res) => {
             return res.send(errors);
         }
 
-        User.create({ user, password }, (error) => {
-            if (error) throw error;
+        const newUser = new User({ user, password });
+        newUser.save().catch((err) => {
+            return res.status(500).json({ msg: err.message });
         });
         return res.json("OK");
     });

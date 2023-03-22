@@ -46,12 +46,10 @@ router.get("/populate", isAuthenticated, (req, res, next) => {
 router.delete("/removeFavorite/:id", isAuthenticated, (req, res, next) => {
     // eslint-disable-next-line no-underscore-dangle
     const id = req.user._id;
-    Favorites.findOne({ _id: req.params.id }).then((response) => {
+    Favorites.findOneAndDelete({ _id: req.params.id }).then((response) => {
         if (response) {
             // eslint-disable-next-line no-underscore-dangle
             const favoriteID = response._id;
-
-            response.remove();
 
             User.findByIdAndUpdate(id, {
                 $pull: { favorites: favoriteID },
