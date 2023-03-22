@@ -1,62 +1,62 @@
 {
-   "name": "manga_project",
-   "version": "1.0.0",
-   "description": "",
-   "main": "server.js",
-   "scripts": {
-      "start": "if-env NODE_ENV=production && yarn start:prod || yarn start:dev",
-      "start:prod": "node server.js",
-      "start:dev": "yarn kill && concurrently \"nodemon\" \"yarn manga-app\"",
-      "server": "yarn kill && nodemon",
-      "manga-app": "cd manga-app && yarn start",
-      "install": "cd manga-app && yarn install",
-      "build": "cd manga-app && yarn build",
-      "heroku-postbuild": "yarn build",
-      "kill": "kill-port 3001",
-      "lint": "eslint --quiet",
-      "lint-fix": "eslint --fix ."
-   },
-   "nodemonConfig": {
-      "events": {
-         "restart": "yarn kill",
-         "crash": "yarn kill"
-      },
-      "delay": "3000",
-      "ignore": [
-         "manga-app/*"
-      ]
-   },
-   "engines": {
-      "node": "16.17.0",
-      "npm": "8.15.0"
-   },
-   "repository": {
-      "type": "git",
-      "url": "git+https://github.com/zirris512/manga_project.git"
-   },
-   "keywords": [],
-   "author": "Brent Edwards",
-   "license": "ISC",
-   "bugs": {
-      "url": "https://github.com/zirris512/manga_project/issues"
-   },
-   "homepage": "https://github.com/zirris512/manga_project#readme",
-   "dependencies": {
-      "bcryptjs": "^2.4.3",
-      "connect-mongo": "^3.2.0",
-      "cors": "^2.8.5",
-      "dotenv": "^16.0.3",
-      "express": "^4.17.3",
-      "express-graphql": "^0.9.0",
-      "express-session": "^1.17.1",
-      "if-env": "^1.0.4",
-      "mongoose": "^5.9.12",
-      "passport": "^0.6.0",
-      "passport-local": "^1.0.0"
-   },
-   "devDependencies": {
-      "concurrently": "^5.1.0",
-      "kill-port": "^1.6.0",
-      "nodemon": "^2.0.3"
-   }
+    "name": "manga_project",
+    "version": "1.0.0",
+    "description": "",
+    "main": "server.js",
+    "scripts": {
+        "start": "if-env NODE_ENV=production && yarn start:prod || yarn start:dev",
+        "start:prod": "node server.js",
+        "start:dev": "yarn kill && concurrently \"nodemon\" \"yarn manga-app\"",
+        "server": "yarn kill && nodemon",
+        "manga-app": "cd manga-app && yarn start",
+        "install": "cd manga-app && yarn install",
+        "build": "cd manga-app && yarn build",
+        "heroku-postbuild": "yarn build",
+        "kill": "kill-port 3001",
+        "lint": "eslint --quiet",
+        "lint-fix": "eslint --fix ."
+    },
+    "nodemonConfig": {
+        "events": {
+            "restart": "yarn kill",
+            "crash": "yarn kill"
+        },
+        "delay": "3000",
+        "ignore": [
+            "manga-app/*"
+        ]
+    },
+    "engines": {
+        "node": "18.13.0",
+        "npm": "8.15.0"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/zirris512/manga_project.git"
+    },
+    "keywords": [],
+    "author": "Brent Edwards",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/zirris512/manga_project/issues"
+    },
+    "homepage": "https://github.com/zirris512/manga_project#readme",
+    "dependencies": {
+        "bcryptjs": "^2.4.3",
+        "connect-mongo": "^3.2.0",
+        "cors": "^2.8.5",
+        "dotenv": "^16.0.3",
+        "express": "^4.17.3",
+        "express-graphql": "^0.9.0",
+        "express-session": "^1.17.1",
+        "if-env": "^1.0.4",
+        "mongoose": "^5.9.12",
+        "passport": "^0.6.0",
+        "passport-local": "^1.0.0"
+    },
+    "devDependencies": {
+        "concurrently": "^5.1.0",
+        "kill-port": "^1.6.0",
+        "nodemon": "^2.0.3"
+    }
 }
