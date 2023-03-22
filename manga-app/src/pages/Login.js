@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, Redirect } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import ErrorAlert from "../components/ErrorAlert/ErrorAlert";
 
 const Login = ({ setLoggedIn, setUser }) => {
@@ -134,7 +134,7 @@ const Login = ({ setLoggedIn, setUser }) => {
                     </form>
                 </div>
             </div>
-            {redirectTo && <Redirect to={redirectTo} />}
+            {redirectTo && <Navigate to={redirectTo} />}
         </div>
     );
 };

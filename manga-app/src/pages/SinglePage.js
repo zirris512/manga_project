@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useQuery } from "@apollo/react-hooks";
+import { useQuery } from "@apollo/client";
 import { useParams } from "react-router-dom";
 import { GET_SINGLE_ANIME, GET_SINGLE_MANGA } from "../data/queries";
 

@@ -5,7 +5,7 @@ const cors = require("cors");
 require("dotenv").config();
 
 const session = require("express-session");
-const MongoStore = require("connect-mongo")(session);
+const MongoStore = require("connect-mongo");
 const passport = require("./config/passport/index");
 const dbConnect = require("./db/connect");
 const corsOptions = require("./config/cors");
@@ -20,7 +20,7 @@ app.use(express.json());
 app.use(
     session({
         secret: "keyboard cat",
-        store: new MongoStore({ mongooseConnection: dbConnect }),
+        store: MongoStore.create({ client: dbConnect.getClient() }),
         resave: false,
         saveUninitialized: false,
         cookie: {
